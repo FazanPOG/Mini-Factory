@@ -1,13 +1,14 @@
 ﻿using System.Collections.Generic;
 using Gameplay.Machine;
+using Gameplay.State;
 using UnityEngine;
 
 namespace Gameplay.Root
 {
     public class GameplayEntryPoint : MonoBehaviour
     {
-        //Use serializable Dictionary<Machine, Config>
         [SerializeField] private List<Machine.Machine> _machines;
+        [SerializeField] private GameplayUI _gameplayUI;
         
         private List<MachineConfig> _configs;
 
@@ -18,13 +19,20 @@ namespace Gameplay.Root
             //load data
             //update data by offline time
 
+            PlayerStateProxy playerStateProxy = new PlayerStateProxy(new PlayerState()
+            {
+                Currency = 5000,
+                ProductionSpeed = 0
+            });
+            
             LoadMachineConfigs(new MachineSOConfigProvider("Configs/SO"));
-            InitMachines();
+            InitMachines(playerStateProxy);
+            _gameplayUI.Init(playerStateProxy);
         }
 
         private void LoadMachineConfigs(IMachineConfigProvider provider) => _configs = provider.Load();
         
-        private void InitMachines()
+        private void InitMachines(PlayerStateProxy playerStateProxy)
         {
             if(_machines.Count == 0)
                 Debug.LogError($"No machines found! ({nameof(GameplayEntryPoint)} ->  {nameof(InitMachines)})");
@@ -47,7 +55,7 @@ namespace Gameplay.Root
                     UpgradeCost = (int)(config.OpenCost.Value * config.UpgradeCostMultiplier.Value)
                 };
                 
-                machine.Init(config, state);
+                machine.Init(config, state, playerStateProxy);
             }
         }
     }

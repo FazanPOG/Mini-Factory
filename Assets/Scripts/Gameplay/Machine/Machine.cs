@@ -9,20 +9,26 @@ namespace Gameplay.Machine
         
         private const float ProductionIntervalInSeconds = 1f;
 
+        private MachineConfig _config;
         private MachineState _state;
+        private PlayerStateProxy _playerStateProxy;
 
         private float _productionTimer;
-        private int _currency = 0;
 
-        public int Currency => _currency;
-
-        public void Init(MachineConfig config, MachineState state)
+        public void Init(MachineConfig config, MachineState state, PlayerStateProxy playerStateProxy)
         {
+            _config = config;
             _state = state;
-
-            _productionTimer = 0f;
-            _currency = 0;
+            _playerStateProxy = playerStateProxy;
             
+            _productionTimer = 0f;
+
+            if (_state.LockState == LockState.Unlocked)
+                _playerStateProxy.AddProductionSpeed(_state.ProductionRateInSeconds);
+            
+            _machineView.OnOpenClicked += Open;
+            _machineView.OnUpgradeClicked += Upgrade;
+
             _machineView.Init(state);
         }
 
@@ -39,10 +45,63 @@ namespace Gameplay.Machine
             while (_productionTimer >= ProductionIntervalInSeconds)
             {
                 _productionTimer -= ProductionIntervalInSeconds;
-
-                // ProductionRateInSeconds is the currency amount produced per second
-                _currency += _state.ProductionRateInSeconds;
+                _playerStateProxy.AddCurrency(_state.ProductionRateInSeconds);
             }
+        }
+
+        private void Open()
+        {
+            if (_state == null || _state.LockState == LockState.Unlocked)
+                return;
+
+            if (_playerStateProxy.Currency < _state.OpenCost)
+                return;
+
+            _playerStateProxy.SpendCurrency(_state.OpenCost);
+
+            _state.LockState = LockState.Unlocked;
+            _state.UpgradeCost = CalculateUpgradeCost(_state.OpenCost);
+            _playerStateProxy.AddProductionSpeed(_state.ProductionRateInSeconds);
+
+            UpdateView();
+        }
+
+        private void Upgrade()
+        {
+            if (_state == null || _state.LockState == LockState.Locked)
+                return;
+
+            if (_playerStateProxy.Currency < _state.UpgradeCost)
+                return;
+
+            int productionSpeedUpgrade = _config.ProductionRateInSeconds.Value;
+            
+            _playerStateProxy.SpendCurrency(_state.UpgradeCost);
+            _playerStateProxy.AddProductionSpeed(productionSpeedUpgrade);
+            
+            _state.UpgradeCost = CalculateUpgradeCost(_state.UpgradeCost);
+            _state.ProductionRateInSeconds += productionSpeedUpgrade;
+            _state.Level++;
+
+            UpdateView();
+        }
+
+        private int CalculateUpgradeCost(int previousCost) => (int)(previousCost * _config.UpgradeCostMultiplier.Value);
+
+        private void UpdateView()
+        {
+            _machineView.UpdateStateView(_state);
+            _machineView.UpdateOpenView(_state);
+            _machineView.UpdateUpgradeView(_state);
+        }
+
+        private void OnDestroy()
+        {
+            if (_machineView == null)
+                return;
+
+            _machineView.OnOpenClicked -= Open;
+            _machineView.OnUpgradeClicked -= Upgrade;
         }
     }
 }

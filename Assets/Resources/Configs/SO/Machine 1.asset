@@ -17,7 +17,7 @@ MonoBehaviour:
   _level: 1
   _productionRateInSeconds: 10
   _openCost: 100
-  _upgradeCostMultiplier: 2.5
+  _upgradeCostMultiplier: 1.5
   _boostDuration: 10
   _boostMultiplier: 1.5
   _canBoost: 1

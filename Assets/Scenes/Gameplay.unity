@@ -548,6 +548,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 558662870}
+  - component: {fileID: 558662871}
   m_Layer: 0
   m_Name: BalanceView
   m_TagString: Untagged
@@ -572,9 +573,22 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 225.586, y: -52.607}
+  m_AnchoredPosition: {x: 225.58594, y: -52.606934}
   m_SizeDelta: {x: 440.263, y: 94.352}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &558662871
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 558662869}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 099e0493cbe84c0db7215dde1851d47e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BalanceView
+  _balanceText: {fileID: 1643112089}
 --- !u!1001 &587549668
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1188,10 +1202,7 @@ MonoBehaviour:
   - {fileID: 587549670}
   - {fileID: 518952156}
   - {fileID: 484857850}
-  _configs:
-  - {fileID: 11400000, guid: 92a446caf7d891a42940ea6f4cc94633, type: 2}
-  - {fileID: 11400000, guid: 291af424379d15346a0a3e36cac525a1, type: 2}
-  - {fileID: 11400000, guid: 4d4885b953960c54c9cf90ee4b733fcb, type: 2}
+  _gameplayUI: {fileID: 2032781477}
 --- !u!1 &1414307184
 GameObject:
   m_ObjectHideFlags: 0
@@ -1201,6 +1212,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1414307185}
+  - component: {fileID: 1414307186}
   m_Layer: 0
   m_Name: ProductionView
   m_TagString: Untagged
@@ -1228,6 +1240,19 @@ RectTransform:
   m_AnchoredPosition: {x: 225.586, y: -142}
   m_SizeDelta: {x: 440.263, y: 75.51}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1414307186
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1414307184}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78b89329ec7f4f93a96f069310fc7ddf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ProductionView
+  _productionText: {fileID: 1928031965}
 --- !u!1 &1562682192
 GameObject:
   m_ObjectHideFlags: 0
@@ -1770,6 +1795,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2032781476}
+  - component: {fileID: 2032781477}
   m_Layer: 0
   m_Name: '[UI]'
   m_TagString: Untagged
@@ -1793,6 +1819,20 @@ Transform:
   - {fileID: 1884926478}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2032781477
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2032781475}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8f5ca481a944a818c52717013769b17, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GameplayUI
+  _balanceView: {fileID: 558662871}
+  _productionView: {fileID: 1414307186}
 --- !u!1 &2068565582
 GameObject:
   m_ObjectHideFlags: 0
