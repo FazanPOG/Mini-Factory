@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace Gameplay.Machine.UI
@@ -8,16 +9,42 @@ namespace Gameplay.Machine.UI
         [SerializeField] private OpenMachineView _openMachineView;
         [SerializeField] private UpgradeMachineView _upgradeMachineView;
 
-        public MachineStateView StateView => _stateView;
-        public OpenMachineView OpenMachineView => _openMachineView;
-        public UpgradeMachineView UpgradeMachineView => _upgradeMachineView;
+        public Action OnOpenClicked;
+        public Action OnUpgradeClicked;
 
-        public void Refresh(MachineState state)
+        private void OnEnable()
+        {
+            _openMachineView.OpenButton.onClick.AddListener(() => OnOpenClicked?.Invoke());
+            _upgradeMachineView.UpgradeButton.onClick.AddListener(() => OnUpgradeClicked?.Invoke());
+        }
+
+        public void Init(MachineState state)
+        {
+            UpdateStateView(state);
+            UpdateOpenView(state);
+            UpdateUpgradeView(state);
+        }
+
+        public void UpdateOpenView(MachineState state)
+        {
+            _openMachineView.UpdateOpenCostText(state);
+        }
+        
+        public void UpdateStateView(MachineState state)
         {
             _stateView.UpdateOpenText(state.LockState);
             _stateView.UpdateLevelText(state.Level);
-            _openMachineView.UpdateOpenCostText(state.OpenCost);
+        }
+
+        public void UpdateUpgradeView(MachineState state)
+        {
             _upgradeMachineView.UpdateCostText(state.UpgradeCost);
+        }
+        
+        private void OnDisable()
+        {
+            _openMachineView.OpenButton.onClick.RemoveAllListeners();
+            _upgradeMachineView.UpgradeButton.onClick.RemoveAllListeners();
         }
     }
 }

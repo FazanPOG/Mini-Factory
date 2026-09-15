@@ -1,4 +1,3 @@
-using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,18 +9,14 @@ namespace Gameplay.Machine.UI
         [SerializeField] private TextMeshProUGUI _openCostText;
         [SerializeField] private Button _openButton;
 
-        public Action OnOpenButtonClicked;
-        
-        private void OnEnable()
-        {
-            _openButton.onClick.AddListener(() => OnOpenButtonClicked?.Invoke());
-        }
+        public Button OpenButton => _openButton;
 
-        public void UpdateOpenCostText(int openCost) => _openCostText.text = openCost.ToString();
-        
-        private void OnDisable()
+        public void UpdateOpenCostText(MachineState state)
         {
-            _openButton.onClick.RemoveAllListeners();
+            if (state.LockState == LockState.Locked)
+                _openCostText.text = state.OpenCost.ToString();
+            else
+                _openCostText.text = "-";
         }
     }
 }

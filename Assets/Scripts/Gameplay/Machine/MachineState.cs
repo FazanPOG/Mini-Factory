@@ -8,7 +8,7 @@ namespace Gameplay.Machine
         public int ID;
         public LockState LockState;
         public int Level;
-        public float ProductionRate;
+        public int ProductionRateInSeconds;
         public int OpenCost;
         public int UpgradeCost;
     }

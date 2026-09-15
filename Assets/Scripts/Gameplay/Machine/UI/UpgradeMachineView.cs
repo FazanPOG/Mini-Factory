@@ -1,4 +1,3 @@
-using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,18 +9,8 @@ namespace Gameplay.Machine.UI
         [SerializeField] private TextMeshProUGUI _costText;
         [SerializeField] private Button _upgradeButton;
 
-        public Action OnUpgradeButtonClicked;
+        public Button UpgradeButton => _upgradeButton;
         
-        private void OnEnable()
-        {
-            _upgradeButton.onClick.AddListener(() => OnUpgradeButtonClicked?.Invoke());
-        }
-
         public void UpdateCostText(int cost) => _costText.text = cost.ToString();
-        
-        private void OnDisable()
-        {
-            _upgradeButton.onClick.RemoveAllListeners();
-        }
     }
 }

@@ -11,7 +11,8 @@ namespace Gameplay.Machine
         [SerializeField] private LockState _lockState;
         [Min(1)]
         [SerializeField] private int _level;
-        [SerializeField] private float _productionRateInSeconds;
+        [Min(0)]
+        [SerializeField] private int _productionRateInSeconds;
         [Min(0)]
         [SerializeField] private int _openCost;
         [SerializeField] private float _upgradeCostMultiplier;
@@ -32,7 +33,7 @@ namespace Gameplay.Machine
         public int ID => _id;
         public LockState LockState => _lockState;
         public int Level => _level;
-        public float ProductionRate => _productionRateInSeconds;
+        public int ProductionRateInSeconds => _productionRateInSeconds;
         public int OpenCost => _openCost;
         public float UpgradeCostMultiplier => _upgradeCostMultiplier;
         public float BoostDuration => _boostDuration;

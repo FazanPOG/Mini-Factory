@@ -755,6 +755,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df7fca57395dd114088a946b070f24c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Gameplay.Machine.Machine
+  _machineView: {fileID: 7862417895245327754}
 --- !u!1 &5117946737361046077
 GameObject:
   m_ObjectHideFlags: 0
