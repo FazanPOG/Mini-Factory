@@ -1,0 +1,12 @@
+{
+  "ID": 1,
+  "LockState": "Unlocked",
+  "Level": 1,
+  "ProductionRateInSeconds": 10,
+  "OpenCost": 100,
+  "UpgradeCostMultiplier": 2.5,
+  "BoostDuration": 10,
+  "BoostMultiplier": 1.5,
+  "CanBoost": true,
+  "MaxTimeOfflineProductionInSeconds": 60
+}

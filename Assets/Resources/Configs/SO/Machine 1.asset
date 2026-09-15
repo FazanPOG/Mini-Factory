@@ -11,7 +11,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8f158764edc142efbe09b3dad4d5cf07, type: 3}
   m_Name: Machine 1
-  m_EditorClassIdentifier: Assembly-CSharp::Gameplay.Machine.MachineConfig
+  m_EditorClassIdentifier: Assembly-CSharp::Gameplay.Machine.MachineConfigSO
   _id: 1
   _lockState: 1
   _level: 1

@@ -6,9 +6,10 @@ namespace Gameplay.Root
 {
     public class GameplayEntryPoint : MonoBehaviour
     {
-        //Use serializable dictionary
+        //Use serializable Dictionary<Machine, Config>
         [SerializeField] private List<Machine.Machine> _machines;
-        [SerializeField] private List<MachineConfig> _configs;
+        
+        private List<MachineConfig> _configs;
 
         private void Start()
         {
@@ -16,9 +17,13 @@ namespace Gameplay.Root
             //wait api load
             //load data
             //update data by offline time
+
+            LoadMachineConfigs(new MachineSOConfigProvider("Configs/SO"));
             InitMachines();
         }
-    
+
+        private void LoadMachineConfigs(IMachineConfigProvider provider) => _configs = provider.Load();
+        
         private void InitMachines()
         {
             if(_machines.Count == 0)
@@ -34,12 +39,12 @@ namespace Gameplay.Root
                 
                 MachineState state = new MachineState()
                 {
-                    ID = config.ID,
-                    Level = config.Level,
-                    LockState = config.LockState,
-                    OpenCost = config.OpenCost,
-                    ProductionRateInSeconds = config.ProductionRateInSeconds,
-                    UpgradeCost = (int)(config.OpenCost * config.UpgradeCostMultiplier)
+                    ID = config.ID.Value,
+                    Level = config.Level.Value,
+                    LockState = config.LockState.Value,
+                    OpenCost = config.OpenCost.Value,
+                    ProductionRateInSeconds = config.ProductionRateInSeconds.Value,
+                    UpgradeCost = (int)(config.OpenCost.Value * config.UpgradeCostMultiplier.Value)
                 };
                 
                 machine.Init(config, state);
