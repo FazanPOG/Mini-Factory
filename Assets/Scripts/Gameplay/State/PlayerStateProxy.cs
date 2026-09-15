@@ -27,7 +27,7 @@ public class PlayerStateProxy
 
     public void SpendCurrency(int amount)
     {
-        if(amount < 0 && amount > _playerState.Currency)
+        if (amount <= 0 || amount > _playerState.Currency)
             return;
         
         _playerState.Currency -= amount;
