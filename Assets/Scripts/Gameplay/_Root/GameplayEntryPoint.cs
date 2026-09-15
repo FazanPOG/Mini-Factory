@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Analytics;
 using Gameplay.Machine;
 using Gameplay.State;
 using UnityEngine;
@@ -19,6 +20,12 @@ namespace Gameplay.Root
             //load data
             //update data by offline time
 
+            IAnalyticProvider analyticProvider = new MultiAnalyticProvider(new List<IAnalyticProvider>()
+            {
+                new ConsoleAnalyticProvider(),
+                new ConsoleAnalyticProvider()
+            });
+            
             PlayerStateProxy playerStateProxy = new PlayerStateProxy(new PlayerState()
             {
                 Currency = 5000,
@@ -26,13 +33,15 @@ namespace Gameplay.Root
             });
             
             LoadMachineConfigs(new MachineSOConfigProvider("Configs/SO"));
-            InitMachines(playerStateProxy);
+            InitMachines(playerStateProxy, analyticProvider);
             _gameplayUI.Init(playerStateProxy);
+            
+            analyticProvider.GameStarted();
         }
 
         private void LoadMachineConfigs(IMachineConfigProvider provider) => _configs = provider.Load();
         
-        private void InitMachines(PlayerStateProxy playerStateProxy)
+        private void InitMachines(PlayerStateProxy playerStateProxy, IAnalyticProvider analyticProvider)
         {
             if(_machines.Count == 0)
                 Debug.LogError($"No machines found! ({nameof(GameplayEntryPoint)} ->  {nameof(InitMachines)})");
@@ -55,7 +64,7 @@ namespace Gameplay.Root
                     UpgradeCost = (int)(config.OpenCost.Value * config.UpgradeCostMultiplier.Value)
                 };
                 
-                machine.Init(config, state, playerStateProxy);
+                machine.Init(config, state, playerStateProxy, analyticProvider);
             }
         }
     }

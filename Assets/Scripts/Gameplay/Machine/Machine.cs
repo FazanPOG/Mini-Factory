@@ -1,3 +1,4 @@
+using Analytics;
 using Gameplay.Machine.UI;
 using UnityEngine;
 
@@ -12,14 +13,16 @@ namespace Gameplay.Machine
         private MachineConfig _config;
         private MachineState _state;
         private PlayerStateProxy _playerStateProxy;
+        private IAnalyticProvider _analyticProvider;
 
         private float _productionTimer;
 
-        public void Init(MachineConfig config, MachineState state, PlayerStateProxy playerStateProxy)
+        public void Init(MachineConfig config, MachineState state, PlayerStateProxy playerStateProxy, IAnalyticProvider analyticProvider)
         {
             _config = config;
             _state = state;
             _playerStateProxy = playerStateProxy;
+            _analyticProvider = analyticProvider;
             
             _productionTimer = 0f;
 
@@ -64,6 +67,8 @@ namespace Gameplay.Machine
             _playerStateProxy.AddProductionSpeed(_state.ProductionRateInSeconds);
 
             UpdateView();
+            
+            _analyticProvider.MachineUnlocked(_state.ID);
         }
 
         private void Upgrade()
@@ -84,6 +89,8 @@ namespace Gameplay.Machine
             _state.Level++;
 
             UpdateView();
+            
+            _analyticProvider.MachineUpgrade(_state.ID, _state.Level);
         }
 
         private int CalculateUpgradeCost(int previousCost) => (int)(previousCost * _config.UpgradeCostMultiplier.Value);
